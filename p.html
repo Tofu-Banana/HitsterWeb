@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0e0d1a">
+<title>HitsterWeb</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="player">
+<div class="frame"></div>
+
+<section id="v-msg" class="screen center">
+  <h1 class="logo">HitsterWeb</h1>
+  <p id="msg" class="muted">Joining…</p>
+</section>
+
+<section id="v-lobby" class="screen center hidden">
+  <p class="muted" style="margin:0">You are</p>
+  <h1 class="bigNum" id="lobbyNum"></h1>
+  <p class="muted">Waiting for the host to start the game…</p>
+</section>
+
+<section id="v-game" class="hidden">
+  <header class="pHeader">
+    <div class="row"><span id="meText"></span><span id="countText"></span></div>
+    <div class="status" id="status"></div>
+  </header>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<section id="v-over" class="screen center hidden">
+  <div style="font-size:72px" id="overIcon">🏆</div>
+  <h1 class="playerTitle" id="overText"></h1>
+  <p class="muted" id="overSub"></p>
+</section>
+
+<script type="module" src="js/player.js"></script>
+</body>
+</html>

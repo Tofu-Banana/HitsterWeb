@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "games": {
+      "$game": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}

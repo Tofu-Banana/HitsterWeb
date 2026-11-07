@@ -203,6 +203,7 @@ function flipMove(mutate) {
 }
 
 function reposition(y) {
+  if (!mystery || !mystery.isConnected) return;
   const others = [...tl.children].filter(c => c !== mystery);
   let idx = 0;
   for (const c of others) {

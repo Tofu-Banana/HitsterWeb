@@ -106,7 +106,7 @@ async function showSetupOrMenu() {
 
 document.querySelectorAll('[data-manual]').forEach(b => b.onclick = () => { localStorage.setItem('hw_manual', '1'); show('menu'); });
 $('#iosDone').onclick = () => { localStorage.setItem('hw_ios_ready', '1'); show('menu'); };
-$('#iosTest').onclick = () => runShortcut('0|30|5', HOME + '?test=ok', HOME + '?test=fail');
+$('#iosTest').onclick = () => runShortcut('30', HOME + '?test=ok', HOME + '?test=fail');
 $('#redoSetup').onclick = () => {
   localStorage.removeItem('hw_ios_ready'); localStorage.removeItem('hw_manual');
   if (AndroidApp && AndroidApp.openAccessSettings) AndroidApp.openAccessSettings(); else showSetupOrMenu();
@@ -135,8 +135,9 @@ function runShortcut(text, back, fail) {
 
 async function runClip(c) {
   if (control === 'ios') {
-    // The shortcut skips, jumps to the chorus, plays, waits, pauses, and then opens this page again.
-    runShortcut(`${c.nexts}|${c.start}|${c.length}`, `${HOME}?clipdone=${c.turnId}`, `${HOME}?clipfail=${c.turnId}`);
+    // The shortcut skips to the next song, jumps to the chorus (the number we send), plays 30 s,
+    // pauses, and then opens this page again.
+    runShortcut(String(c.start), `${HOME}?clipdone=${c.turnId}`, `${HOME}?clipfail=${c.turnId}`);
     return;
   }
   if (control === 'android') {
@@ -306,7 +307,7 @@ function renderGame(s) {
   } else if (t.stage === 'playing') {
     const c = s.clip || {};
     if (control === 'manual') {
-      label.innerHTML = `${c.mode === 'first' ? 'Press <b>play</b>' : `Press <b>next</b>${c.nexts > 1 ? ` ${c.nexts} times` : ''}`} in Spotify, jump to <b>${fmtTime(c.start || 0)}</b>, and play ${c.length || 30} seconds.`;
+      label.innerHTML = `Press <b>next</b> in Spotify, jump to <b>${fmtTime(c.start || 0)}</b>, and play ${c.length || 30} seconds.`;
       ended.classList.remove('hidden');
     } else {
       label.textContent = `Player ${t.playerNum} is listening…`;

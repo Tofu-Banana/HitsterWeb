@@ -86,21 +86,19 @@ export class Game {
   start() {
     if (this.phase !== 'lobby') return 'Not in the lobby.';
     if (!this.players.length) return 'At least one player has to join first.';
-    const usable = this.songs.filter(s => s.year);
-    if (usable.length < this.players.length + 1) return 'Not enough songs in the playlist.';
-    // Songs are PLAYED in playlist order from the top (that's what Spotify will play).
-    // Each player's starting card is taken from the END of the playlist, so those never play.
+    const missing = this.songs.filter(s => !s.year);
+    if (missing.length) return 'These songs have no year: ' + missing.map(s => s.title).join(', ') + '. Remove them from the playlist in Spotify and export it again.';
+    if (this.songs.length < this.players.length + 1) return 'Not enough songs in the playlist.';
+    // Song 1 is already loaded (and paused) in Spotify, so it becomes Player 1's starting card.
+    // Every turn then presses "next" exactly once, so the songs play in playlist order from song 2.
+    // The other players' starting cards come from the END of the playlist, so those never play.
     this.deck = this.songs.slice();
-    for (const p of this.players) {
-      let s;
-      do { s = this.deck.pop(); } while (s && !s.year);
-      p.timeline = [s];
-    }
+    this.players.forEach((p, i) => { p.timeline = [i === 0 ? this.deck[0] : this.deck.pop()]; });
     this.openSlot = null;
     this.phase = 'game';
     this.current = 0;
     this.round = 1;
-    this.playlistPos = -1;
+    this.playlistPos = 0; // song 1 is loaded in Spotify
     this.newTurn();
     return null;
   }
@@ -118,19 +116,13 @@ export class Game {
     if (this.phase !== 'game') return { over: true };
     if (this.turn.stage !== 'ready') return { error: 'A song is already playing.' };
 
-    // Next song in the playlist. Songs without any known year are skipped in Spotify too.
-    // nexts = how many times to press "next" in Spotify (0 = play the song that's already loaded).
-    let nexts = 0, song = null;
-    while (this.deck.length > this.playlistPos + 1) {
-      if (this.playlistPos >= 0) nexts++;
-      this.playlistPos++;
-      const s = this.deck[this.playlistPos];
-      if (s.year) { song = s; break; }
-    }
-    if (!song) { this.finish('The playlist ran out of songs.'); return { over: true }; }
+    // Next song in the playlist = one press of "next" in Spotify.
+    if (this.playlistPos + 1 >= this.deck.length) { this.finish('The playlist ran out of songs.'); return { over: true }; }
+    this.playlistPos++;
+    const song = this.deck[this.playlistPos];
     this.turn.song = song;
     this.turn.stage = 'playing';
-    this.turn.clip = { mode: nexts ? 'next' : 'first', nexts, start: clipStart(song), length: CLIP_SECONDS, turnId: this.turn.id };
+    this.turn.clip = { mode: 'next', nexts: 1, start: clipStart(song), length: CLIP_SECONDS, turnId: this.turn.id };
     return { clip: this.turn.clip };
   }
 

@@ -4,9 +4,9 @@
 //  These values are not secret — they only say WHICH database to use.
 // ============================================================
 export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  appId: "PASTE_YOUR_APP_ID",
+  apiKey: "AIzaSyCAiwnJH9p0xYDNVMHByI2D9196L9LaO3k",
+  authDomain: "hitsterweb.firebaseapp.com",
+  databaseURL: "https://hitsterweb-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "hitsterweb",
+  appId: "1:370880003509:web:c1b9b1fc3c36f4a70d6dfc",
 };

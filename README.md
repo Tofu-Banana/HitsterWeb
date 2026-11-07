@@ -27,7 +27,7 @@ HitsterWeb is a website. **GitHub Pages** hosts it for free, and **Firebase** (a
 6. After about a minute, your game is live at **`https://YOURNAME.github.io/HitsterWeb/`**
 
 ### 3. Set up the host phone
-**iPhone:** open your game link in Safari. The page detects the iPhone and shows how to make a shortcut named **HitsterWeb** in the Shortcuts app. Tap **Test the shortcut** to check it works. Tip: Share → **Add to Home Screen**.
+**iPhone:** open your game link in Safari. The page detects the iPhone and shows how to make a shortcut named **HitsterWeb** in the Shortcuts app. It has 5 actions: Skip Forward → Seek (to Shortcut Input) → Play → Wait 30 seconds → Pause. Tap **Test the shortcut** to check it works. Tip: Share → **Add to Home Screen**.
 
 **Android:** install the **HitsterWeb Host** app (see below), open it, and type your game link. Then turn on **Notification access** for it when the app asks. That's what lets it jump to the middle of each song.
 If the switch is greyed out: Settings → Apps → HitsterWeb Host → ⋮ → **Allow restricted settings**.
@@ -39,7 +39,7 @@ If the switch is greyed out: Settings → Apps → HitsterWeb Host → ⋮ → *
 2. **Open Exportify**, log in with Spotify, export your playlist (a .csv file), then **Upload playlist file**.
    The game then checks every song on MusicBrainz to find its original year (remasters often show the wrong year). That takes about 1 second per song. Results are saved on the phone, so the next time is instant. **Use last playlist again** skips this whole step.
 3. One QR code appears per player. Each time someone scans it, a new one appears for the next player. Tap **No more players** when everyone is in.
-4. In Spotify, open the same playlist, **turn shuffle off**, start the **first song**, and pause it.
+4. In Spotify, open the same playlist, **turn shuffle off**, start the **first song**, and pause it. Song 1 becomes Player 1's starting card. Each turn then skips to the next song.
 5. Press the big play button. The current player hears a 30-second clip (blue border on their phone). When it ends, the border turns green, and they drag the face-down card up or down into their timeline. Then they tap the card on the host phone to flip it.
    - Right: the card stays in their timeline.
    - Wrong: red border, and the card fades away.
@@ -56,7 +56,7 @@ The phones don't need to be on the same Wi-Fi. Any internet connection works.
 
 ## Settings
 - Cards to win: `WIN_CARDS` at the top of `js/game.js`.
-- Clip length: `CLIP_SECONDS` in `js/game.js` (30 by default).
+- Clip length: `CLIP_SECONDS` in `js/game.js` (30 by default). On iPhone, also change the **Wait** action in the shortcut to the same number.
 
 ## Good to know
 - **The game counts songs to know which one is playing.** It doesn't connect to Spotify's servers, so keep shuffle off, start from song 1, and don't skip songs in Spotify by hand during the game. Spotify songs that are unavailable (greyed out) can shift the count.

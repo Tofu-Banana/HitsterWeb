@@ -35,7 +35,7 @@ const norm = s => (s || '')
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   .toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9\u0590-\u05ff\u0400-\u04ff]/g, '');
 
-const EXTRA_WORDS = /(remaster|remastered|version|mono|stereo|edit|mix|live|anniversary|deluxe|single|from|feat|ft\.|bonus|demo|acoustic|re-?recorded|taylor's)/i;
+const EXTRA_WORDS = /(remaster|remastered|version|mono|stereo|edit|mix|live|anniversary|deluxe|single|from|feat|ft\.|bonus|demo|acoustic|re-?recorded|taylor's|official|video|audio|lyrics?|visuali[sz]er|\bhd\b|\bhq\b)/i;
 
 export function cleanTitle(t) {
   let s = t;

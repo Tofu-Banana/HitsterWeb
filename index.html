@@ -24,23 +24,18 @@
 <section id="s-ios" class="screen hidden">
   <h1 class="logo">HitsterWeb<small>iPhone setup (one time only)</small></h1>
   <div class="panel">
-    <p>On iPhone, HitsterWeb controls Spotify through Apple's <b>Shortcuts</b> app. Make this shortcut once:</p>
+    <p>On iPhone, HitsterWeb controls your music app (Spotify, Apple Music or YouTube Music) through Apple's <b>Shortcuts</b> app. Make this shortcut once (5 actions):</p>
     <ol class="steps">
       <li>Open <b>Shortcuts</b>, tap <kbd>+</kbd>, and name the shortcut exactly <b>HitsterWeb</b>.</li>
-      <li>Add <b>Split Text</b>. Tap its text and choose <b>Shortcut Input</b>. Set the separator to <b>Custom</b> and type <kbd>|</kbd></li>
-      <li>Add <b>Get Item from List</b> → <b>First Item</b>.</li>
-      <li>Add <b>If</b> → <i>Item from List</i> <b>is greater than</b> <kbd>0</kbd>.</li>
-      <li>Inside the If, add <b>Repeat</b>, tap its number and choose <i>Item from List</i>. Inside the Repeat, add <b>Skip Forward</b>.</li>
-      <li>Below <i>End If</i>, add <b>Get Item from List</b> → <b>Item At Index</b> <kbd>2</kbd>, and tap its list to choose <i>Split Text</i>.</li>
-      <li>Add <b>Seek</b> and set it to seek <b>to</b> the time from step 6 (tap the time and pick <i>Item from List</i>, seconds).
-        <span class="muted">If it won't accept it, skip this step — clips will then start from the beginning.</span></li>
-      <li>Add <b>Play/Pause</b> and change it to <b>Play</b>.</li>
-      <li>Add <b>Get Item from List</b> → <b>Item At Index</b> <kbd>3</kbd> (list: <i>Split Text</i>).</li>
-      <li>Add <b>Wait</b>, tap the seconds and choose that <i>Item from List</i>.</li>
+      <li>Add <b>Skip Forward</b>.</li>
+      <li>Add <b>Seek</b>. Tap its time and choose <b>Shortcut Input</b>.
+        <span class="muted">(If it won't take it, type 0:45 instead.)</span></li>
+      <li>Add <b>Play/Pause</b> and tap it to change it to <b>Play</b>.</li>
+      <li>Add <b>Wait</b> and set it to <kbd>30</kbd> seconds.</li>
       <li>Add <b>Play/Pause</b> and change it to <b>Pause</b>. Done!</li>
     </ol>
   </div>
-  <p class="note">To test: start any song in Spotify, then tap Test. It should jump to 0:30, play 5 seconds, pause, and come back here.</p>
+  <p class="note">To test: start any playlist in your music app, then tap Test. It should skip to the next song, jump to 0:30, play 30 seconds, pause, and come back here.</p>
   <div class="btnrow">
     <button class="btn secondary" id="iosTest">Test the shortcut</button>
     <div id="iosTestResult" class="note"></div>
@@ -52,23 +47,23 @@
 <section id="s-android" class="screen center hidden">
   <h1 class="logo">HitsterWeb<small>Android host</small></h1>
   <div class="panel">
-    <p>To let HitsterWeb play, pause and skip Spotify for you, open this page inside the <b>HitsterWeb Host</b> app.</p>
+    <p>To let HitsterWeb play, pause and skip your music app for you, open this page inside the <b>HitsterWeb Host</b> app.</p>
     <p id="apkLink" class="hidden"><a class="btn" href="HitsterWeb-Host.apk" download>Download the host app</a></p>
     <p id="apkMissing" class="muted hidden">The app isn't built yet. Build it from the <b>android</b> folder (see README), then upload
       <b>HitsterWeb-Host.apk</b> next to index.html so it can be downloaded here.</p>
   </div>
-  <button class="linkbtn" data-manual>Continue without it (I'll press play/pause in Spotify myself)</button>
+  <button class="linkbtn" data-manual>Continue without it (I'll press play/pause in the music app myself)</button>
 </section>
 
 <!-- Computer / other -->
 <section id="s-desktop" class="screen center hidden">
   <h1 class="logo">HitsterWeb<small>Host screen</small></h1>
   <div class="panel">
-    <p>Open this page on the <b>host phone</b> so it can control Spotify:</p>
+    <p>Open this page on the <b>host phone</b> so it can control the music:</p>
     <p><b id="hostUrl"></b></p>
     <div class="qr" id="hostQr" style="margin:0 auto 14px;width:min(60vw,240px)"></div>
   </div>
-  <button class="linkbtn" data-manual>Use this screen anyway (I'll press play/pause in Spotify myself)</button>
+  <button class="linkbtn" data-manual>Use this screen anyway (I'll press play/pause in the music app myself)</button>
 </section>
 
 <!-- Main menu -->
@@ -80,22 +75,38 @@
   <button class="linkbtn" id="redoSetup" style="position:fixed;bottom:max(14px,env(safe-area-inset-bottom))">Music control setup</button>
 </section>
 
-<!-- Playlist (Exportify) -->
+<!-- Playlist -->
 <section id="s-playlist" class="screen center hidden">
   <h2>Load your playlist</h2>
+  <div class="tabs" id="sourceTabs">
+    <button class="tab" data-source="Spotify">Spotify</button>
+    <button class="tab" data-source="Apple Music">Apple Music</button>
+    <button class="tab" data-source="YouTube Music">YouTube Music</button>
+  </div>
   <div class="panel" style="text-align:left">
-    <ol class="steps">
+    <ol class="steps" data-for="Spotify">
       <li>Use a playlist <b>you own</b> in Spotify (or copy the songs into a new playlist of yours).</li>
       <li>Tap <b>Open Exportify</b>, log in with Spotify, and tap <b>Export</b> next to your playlist. A <b>.csv</b> file downloads.</li>
       <li>Come back here and tap <b>Upload playlist file</b>.</li>
     </ol>
+    <ol class="steps hidden" data-for="Apple Music">
+      <li><b>On a computer</b> (Music on Mac, or iTunes on Windows): select the playlist, then <b>File → Library → Export Playlist</b>. Save it as <b>XML</b> or <b>Text</b> and send the file to this phone.</li>
+      <li><b>Or on this phone:</b> tap <b>Open TuneMyMusic</b>, choose <b>Apple Music</b> as the source, pick your playlist, and choose <b>Export to file</b> (CSV).</li>
+      <li>Come back here and tap <b>Upload playlist file</b>.</li>
+    </ol>
+    <ol class="steps hidden" data-for="YouTube Music">
+      <li>Tap <b>Open TuneMyMusic</b> and choose <b>YouTube Music</b> as the source.</li>
+      <li>Pick your playlist, choose <b>Export to file</b> as the destination (CSV), and download the file.</li>
+      <li>Come back here and tap <b>Upload playlist file</b>.</li>
+    </ol>
   </div>
   <div class="btnrow">
-    <a class="btn secondary" href="https://exportify.net" target="_blank" rel="noopener">Open Exportify</a>
+    <a class="btn secondary" id="exportLink" href="https://exportify.net" target="_blank" rel="noopener">Open Exportify</a>
     <label class="btn" for="csvFile">Upload playlist file</label>
-    <input type="file" id="csvFile" accept=".csv,text/csv,text/comma-separated-values,application/vnd.ms-excel" class="hidden">
+    <input type="file" id="csvFile" accept=".csv,.txt,.xml,.tsv,text/csv,text/plain,text/xml,application/xml,text/comma-separated-values,application/vnd.ms-excel" class="hidden">
     <button class="btn secondary hidden" id="useLast">Use last playlist again</button>
     <div id="playlistError" class="err"></div>
+    <button class="linkbtn" data-exit>Back to menu</button>
   </div>
 </section>
 
@@ -105,7 +116,20 @@
   <p class="muted">Checking every song on MusicBrainz, so remasters get their real year.</p>
   <div class="progress"><div id="yearBar"></div></div>
   <p id="yearText" class="muted"></p>
-  <button class="btn secondary small" id="skipYears">Skip (use Spotify's years)</button>
+  <button class="btn secondary small" id="skipYears">Skip the rest</button>
+  <button class="linkbtn" data-exit>Back to menu</button>
+</section>
+
+<!-- Songs whose year couldn't be found -->
+<section id="s-fix" class="screen hidden">
+  <h2 style="text-align:center">A few years are missing</h2>
+  <p class="note">Type the year each of these songs came out. The game can't play a song without one.</p>
+  <div class="fixList" id="fixList"></div>
+  <div class="btnrow">
+    <div id="fixError" class="err"></div>
+    <button class="btn" id="fixDone">Continue</button>
+    <button class="linkbtn" data-exit>Back to menu</button>
+  </div>
 </section>
 
 <!-- Lobby: one QR code per player -->
@@ -114,24 +138,42 @@
   <div class="qr" id="slotQr"></div>
   <div class="chips" id="joined"></div>
   <button class="btn" id="noMore">No more players</button>
-  <p class="note">Before starting: open the playlist in Spotify, make sure <b>shuffle is off</b>, start the <b>first song</b>, and pause it.</p>
+  <p class="note">Before starting: open the playlist in <span class="srcName">Spotify</span>, make sure <b>shuffle is off</b>, start the <b>first song</b>, and pause it.</p>
+  <button class="linkbtn" data-exit>Cancel this game</button>
 </section>
 
 <!-- The game -->
 <section id="s-game" class="screen hidden">
-  <div class="topbar"><span id="roundText"></span><span id="leftText"></span></div>
+  <div class="topbar"><span id="roundText"></span><span id="leftText"></span><button class="menuBtn" id="menuBtn" aria-label="Game menu">☰ Menu</button></div>
   <h1 class="turnTitle" id="turnTitle"></h1>
   <div class="chips" id="scores"></div>
   <div class="stage">
     <button class="hostCardBtn hidden" id="flipBtn" aria-label="Flip the card"></button>
     <div class="stageLabel" id="stageLabel"></div>
+    <div class="betPanel hidden" id="betPanel">
+      <div class="chips" id="betChips"></div>
+    </div>
     <button class="playBtn" id="playBtn" aria-label="Play">
       <svg viewBox="0 0 24 24"><path d="M6 4l15 8-15 8z"/></svg>
       <span class="eq"><i></i><i></i><i></i><i></i></span>
     </button>
+    <button class="btn big hidden" id="nextBtn">Next</button>
     <button class="btn secondary small hidden" id="songEnded">Song ended</button>
   </div>
 </section>
+
+<!-- Game menu (skip a turn, remove a player, end the game) -->
+<div class="sheet hidden" id="menuSheet">
+  <div class="sheetBox">
+    <h2 style="margin-top:0">Game menu</h2>
+    <button class="btn secondary" id="skipTurn">Skip this turn</button>
+    <button class="btn secondary hidden" id="overrideGuess" style="margin-top:10px"></button>
+    <p class="muted" style="margin:14px 0 6px">Remove a player who left:</p>
+    <div class="chips" id="removeList"></div>
+    <button class="btn" id="endGame" style="margin-top:18px">End game</button>
+    <button class="linkbtn" id="menuClose">Close</button>
+  </div>
+</div>
 
 <!-- Game over -->
 <section id="s-over" class="screen center hidden">

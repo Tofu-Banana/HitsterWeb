@@ -14,6 +14,7 @@
 <section id="v-msg" class="screen center">
   <h1 class="logo">HitsterWeb</h1>
   <p id="msg" class="muted">Joining…</p>
+  <a class="btn hidden" id="hostOwn" href="index.html">Host your own game</a>
 </section>
 
 <section id="v-lobby" class="screen center hidden">
@@ -24,16 +25,29 @@
 
 <section id="v-game" class="hidden">
   <header class="pHeader">
-    <div class="row"><span id="meText"></span><span id="countText"></span></div>
+    <div class="row"><span id="meText"></span><span id="tokenText"></span><span id="countText"></span></div>
     <div class="status" id="status"></div>
   </header>
   <div class="timeline" id="timeline"></div>
+  <footer class="pFooter" id="footer">
+    <div class="guessRow hidden" id="guessRow">
+      <input id="guessArtist" placeholder="Artist" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+      <input id="guessTitle" placeholder="Song name" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+    </div>
+    <div class="note hidden" id="guessHint">Name the artist and the song to win a token 🪙 (optional)</div>
+    <div class="footBtns">
+      <button class="btn secondary small hidden" id="swapBtn">New song (−1 🪙)</button>
+      <button class="btn small hidden" id="confirmBtn">Confirm placement</button>
+      <button class="linkbtn" id="leaveBtn">Leave game</button>
+    </div>
+  </footer>
 </section>
 
 <section id="v-over" class="screen center hidden">
   <div style="font-size:72px" id="overIcon">🏆</div>
   <h1 class="playerTitle" id="overText"></h1>
   <p class="muted" id="overSub"></p>
+  <a class="btn" href="index.html">Host your own game</a>
 </section>
 
 <script type="module" src="js/player.js"></script>

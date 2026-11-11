@@ -26,7 +26,7 @@ let listeners = [];
 let clipRunning = false;
 let flipCardTurn = null;
 let endedTimer = null;
-let yearsRunning = false;
+let yearRun = 0;
 
 const SCREENS = ['config', 'ios', 'android', 'desktop', 'menu', 'playlist', 'years', 'fix', 'lobby', 'game', 'over'];
 function show(name) {
@@ -173,16 +173,15 @@ async function runClip(c) {
 
 // ---------------- the year check ----------------
 async function runYearCheck() {
-  if (yearsRunning) return;
-  yearsRunning = true;
+  const run = ++yearRun;   // going Back and loading another playlist starts a new run and stops this one
   const g = game;
   g.yearProgress = { done: 0, total: g.songs.length, skip: false };
   render();
-  await fixYears(g.songs, done => { g.yearProgress.done = done; if (game === g && g.phase === 'years') { save(); render(); } },
-    () => g.yearProgress.skip || game !== g || g.phase !== 'years')
+  const current = () => run === yearRun && game === g && g.phase === 'years';
+  await fixYears(g.songs, done => { if (current()) { g.yearProgress.done = done; save(); render(); } },
+    () => g.yearProgress.skip || !current())
     .catch(e => console.warn('Year check stopped:', e.message));
-  yearsRunning = false;
-  finishYears(g);
+  if (current()) finishYears(g);
 }
 
 // Moves on after the check (or right away when the host taps Skip).
@@ -337,9 +336,20 @@ function renderMenu() {
     `<span class="chip tap remove" data-token="${p.token}" data-num="${p.num}">✕ Player ${p.num}</span>`).join('');
 }
 
-document.querySelectorAll('[data-exit]').forEach(b => b.onclick = () => {
-  if (game && game.players.length && !confirm('Cancel this game?')) return;
-  exitGame();
+// Back button on every screen before the game starts: one step back each time.
+document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => {
+  if (!game) return showSetupOrMenu();
+  if (game.phase === 'playlist') {
+    if (game.players.length && !confirm('Cancel this game? The players who joined will be dropped.')) return;
+    return exitGame();
+  }
+  if (game.phase === 'years' || game.phase === 'fix' || game.phase === 'lobby') {
+    yearRun++;               // stops a running year check
+    game.phase = 'playlist'; // players who already joined stay in and wait
+    game.openSlot = null;
+    $('#playlistError').textContent = '';
+    commit();
+  }
 });
 $('#backMenu').onclick = exitGame;
 
